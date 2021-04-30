@@ -2,6 +2,7 @@
 
 module dataPath (
     input clk, rst
+    
 );
 
     wire hazard, branchTacken;
