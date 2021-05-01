@@ -2,22 +2,18 @@
 
 module tb();
 
-    reg rst, clk;  
+    reg rst = 0;
+    reg clk = 0;
+    integer i;
   
     dataPath uut (clk, rst);
-  
-    initial begin
-        clk = 1;
-    end
-  
-    always
-        #10 clk = !clk;
-  
 
     initial begin
-        rst =  1;
-        #50
-        rst = 0;
+        #10;
+        for (i = 0; i<20 ; i=i+1) begin
+            #10 clk = ~clk;
+        end
+        #10 $finish;
     end
 
 endmodule
