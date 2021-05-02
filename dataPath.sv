@@ -5,26 +5,26 @@ module dataPath (
     
 );
 
-    wire hazard, branchTacken;
-    wire [31:0] branchAddress, instruction, pcNext;
-    wire [3:0] cond;
-	wire [1:0] mode;
-	wire imm;
-	wire [3:0] opCode;
-	wire status;
-	wire [3:0] rn, rd;
-	wire [11:0] shifterOpr;
-	wire [23:0] signedImm24;
+    wire hazard, branchTacken, flush;
+    wire [31:0] branchAddress, pcNext;
+    wire [31:0] instructionIn, instructionOut;
+    wire [31:0] pcOut;
 
     assign hazard = 1'b0;
     assign branchTacken = 1'b0;
     assign branchAddress = 32'd10;
 
-    instFetch IF (branchTacken, hazard, rst, clk, branchAddress,
-        flush, instruction, pcNext);
+    instFetch IF (
+        .branchTacken(branchTacken), .freeze(hazard), .rst(rst), .clk(clk),
+  	    .branchAddress(branchAddress),
+  	    .flush(flush),
+	    .instruction(instructionIn), .pcNext(pcNext)    
+    );
 
-    instFetchReg IFR (branchTacken, hazard, clk, instruction, pcNext,
-        cond, mode, imm, opCode, status, rn, rd,
-        shifterOpr, signedImm24);
+    instFetchReg IFR (
+        .flush(branchTacken), .freeze(hazard), .clk(clk),
+        .instructionIn(instructionIn), .pcIn(pcNext),
+        .instructionOut(instructionOut), .pcOut(pcOut)
+    );
 
 endmodule
