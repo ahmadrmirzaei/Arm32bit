@@ -1,3 +1,4 @@
+`include "dataPath.sv"
 `timescale 1ns/1ns
 
 module tb();
@@ -9,6 +10,9 @@ module tb();
     dataPath uut (clk, rst);
 
     initial begin
+        $dumpfile("test.vcd");
+        $dumpvars(0, uut);
+
         #10;
         for (i = 0; i<20 ; i=i+1) begin
             #10 clk = ~clk;
