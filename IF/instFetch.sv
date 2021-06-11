@@ -5,6 +5,7 @@
 
 module instFetch (
 	input clk, rst,
+	
 	input branchTacken, hzrd,
   	input [31:0] branchAddress,
 	output [31:0] pipedInstruction, pipedPc4

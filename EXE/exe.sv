@@ -9,8 +9,8 @@ module exe (
     
     input WB_EN, MEM_R_EN, MEM_W_EN,
     input [3:0] EXE_CMD,
-    input S, B,
-    input [31:0] val1, pc, val_rm,
+    input B, S,
+    input [31:0] pc, val_rn, val_rm,
     input imm,
     input [11:0] shifter_oprand,
     input [23:0] signed_imm_24,
@@ -20,34 +20,40 @@ module exe (
     output [31:0] alu_res_out, val_rm_out,
     output [3:0] dest_out,
 
-    output Bout,
+    output B_out,
+    output [3:0] EXE_dst,
+    output EXE_WB_EN,
     output [31:0] branch_address,
     output [3:0] status_out
 );
     wire MEM_EN = MEM_R_EN | MEM_W_EN;
     wire branch_address = {{6{signed_imm_24[23]}},signed_imm_24,2'b0} + pc;
     wire C = status_in[1];
-    assign Bout = B;
+    wire [31:0] val1 = val_rn;
+
+    assign B_out = B;
+    assign EXE_dst = dest;
+    assign EXE_WB_EN = WB_EN;
 
     wire [31:0] val2;
     wire [3:0] status_bits;
     wire [31:0] alu_res;
 
-    val2generator v2g(
+    val2generator v2g (
         val_rm,
         shifter_oprand,
         imm, MEM_EN,
         val2
     );
 
-    statusRegister sr(
+    statusRegister sr (
         clk, rst,
         status_bits,
         S,
         status_out
     );
 
-    ALU alu(
+    ALU alu (
         val1, val2,
         EXE_CMD,
         C,
@@ -55,7 +61,7 @@ module exe (
         status_bits
     );
 
-    exeReg pr_exe_mem(
+    exeReg pr_exe_mem (
         clk, rst,
         WB_EN, MEM_R_EN, MEM_W_EN,
         alu_res, val_rm,
