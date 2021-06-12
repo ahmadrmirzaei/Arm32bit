@@ -8,12 +8,12 @@ module val2generator (
     output reg [31:0] val2
 );
 
-    assign rotate_imm = shifter_oprand[11:8];
-    assign immed_8 = shifter_oprand[7:0];
-    assign shift_imm = shifter_oprand[11:7];
-    assign shift = shifter_oprand[6:5];
-    assign fourth = shifter_oprand[4];
-    assign rm = shifter_oprand[3:0];
+    wire [3:0] rotate_imm = shifter_oprand[11:8];
+    wire [7:0] immed_8 = shifter_oprand[7:0];
+    wire [4:0] shift_imm = shifter_oprand[11:7];
+    wire [1:0] shift = shifter_oprand[6:5];
+    wire fourth = shifter_oprand[4];
+    wire [3:0] rm = shifter_oprand[3:0];
     
     integer i;
 

@@ -5,7 +5,7 @@ module instMem (
 	output [31:0] instruction
 );
 	
-	reg [31:0] instructions [0:255];
+	reg [31:0] instructions [0:46];
 	initial $readmemb("instructions.txt", instructions);
 	
 	assign instruction = instructions[address/4];

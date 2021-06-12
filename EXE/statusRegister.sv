@@ -9,8 +9,11 @@ module statusRegister (
 );
 
     always @(negedge clk, posedge rst) begin
-        if(rst) status_bits_out = 0;
-        else if(s) status_bits_out <= status_bits_in;
+        if(rst) status_bits_out <= 0;
+        else if(s) begin 
+            status_bits_out <= status_bits_in;
+            $display("%d%d%d%d", status_bits_in[3],status_bits_in[2],status_bits_in[1],status_bits_in[0]);
+        end
     end
     
 endmodule

@@ -132,7 +132,7 @@ module conditionCheck(
 
       // def
       4'b1111: begin
-        cCheck = 1;
+        cCheck = 0;
       end
     endcase
   end

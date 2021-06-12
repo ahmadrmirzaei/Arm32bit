@@ -26,7 +26,7 @@ module instDecode(
   output [3:0] srOut,
 
   output [3:0] src1, src2,
-  output twoSrc
+  output twoSrc, move
 );
 
 
@@ -62,7 +62,8 @@ module instDecode(
     s,
     mux_cc,
     exeCmd_ctrl,
-    memRead_ctrl, memWrite_ctrl, wb_ctrl, b_ctrl, s_ctrl
+    memRead_ctrl, memWrite_ctrl, wb_ctrl, b_ctrl, s_ctrl,
+    move
   );
 
 

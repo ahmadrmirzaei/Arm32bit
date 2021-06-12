@@ -1,4 +1,4 @@
 all:
-	iverilog -o tst testbench.sv
-	vvp tst
-	gtkwave test.vcd
+	iverilog -o build/build testbench.sv
+	vvp build/build
+	gtkwave build/test.vcd

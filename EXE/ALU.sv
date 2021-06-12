@@ -1,10 +1,10 @@
 `timescale 1ns/1ns
 
 module ALU (
-    input [31:0] val1, val2,
+    input signed [31:0] val1, val2,
     input [3:0] EXE_CMD,
     input c,
-    output [31:0] result,
+    output signed [31:0] result,
     output reg [3:0] status_bits
 );
 
@@ -48,7 +48,7 @@ module ALU (
                 status_bits = {tmp[31], (tmp == 32'b0), tmp[32], tmp[31]^tmp[32]};
             end
             SBC: begin
-                tmp = {val1[31],val1} - {val2[31],val2} - c;
+                tmp = {val1[31],val1} - {val2[31],val2} - !c;
                 status_bits = {tmp[31], (tmp == 32'b0), tmp[32], tmp[31]^tmp[32]};
             end
             AND, TST: begin

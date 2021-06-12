@@ -9,13 +9,13 @@ module instFetchReg (
 
 	always@(posedge clk, posedge rst)begin
 		if(rst) begin
-			instructionOut <= 32'd0;
-			pcOut <= 32'd0;			
+			instructionOut <= 0;
+			pcOut <= 0;			
 		end
 		else if(~freeze)begin
 			if(flush)begin
-				instructionOut <= {3'b111, 29'd0};
-				pcOut <= pcIn;
+				instructionOut <= 0;
+				pcOut <= 0;
 			end
 			else begin
 				instructionOut <= instructionIn;

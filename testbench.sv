@@ -3,22 +3,27 @@
 
 module tb();
 
-    reg rst = 1;
+    reg rst = 0;
     reg clk = 0;
-    integer i;
+    integer i = 0;
   
-    dataPath uut (clk, rst);
+    dataPath uut (clk, rst, i);
+
+    always begin 
+        #10 clk = 1;
+        i = i+1;
+        #10 clk = 0;
+    end
 
     initial begin
-        $dumpfile("test.vcd");
+        $dumpfile("build/test.vcd");
         $dumpvars(0, uut);
 
         #10;
+        rst = 1;
+        #10
         rst = 0;
-        for (i = 0; i<100 ; i=i+1) begin
-            #10 clk = ~clk;
-        end
-        #10 $finish;
+        #10000 $finish;
     end
 
 endmodule

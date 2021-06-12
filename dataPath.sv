@@ -7,7 +7,8 @@
 `timescale 1ns/1ns
 
 module dataPath (
-    input clk, rst
+    input clk, rst,
+    input [31:0] i
 );
 
     wire [31:0] instruction_IF;
@@ -42,7 +43,7 @@ module dataPath (
     wire [31:0] val_WB;
     wire [3:0] dest_WB;
 
-    wire hazard;
+    wire hazard, move;
     
     instFetch IF (
         clk, rst,
@@ -73,7 +74,7 @@ module dataPath (
         dest_ID,
         status_ID,
         src1_ID, src2_ID,
-        two_src_ID
+        two_src_ID, move
     );
 
     exe EXE (
@@ -121,11 +122,18 @@ module dataPath (
     );
 
     hazard HAZARD (
+        move,
         WB_EN_EXE2, WB_EN_MEM2,
         dest_EXE2, dest_MEM2,
         src1_ID, src2_ID,
         two_src_ID,
         hazard
     );
+
+    always @(posedge clk) begin
+        $display("%d", pc_IF/4);
+        $display("%b", instruction_IF);
+        $display("________________");
+    end
 
 endmodule
