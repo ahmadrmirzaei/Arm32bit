@@ -4,21 +4,27 @@
 `timescale 1ns/1ns
 
 module instFetch (
-	input clk, rst,
+	input clk, rst, hazard,
 	
-	input branchTacken, hzrd,
-  	input [31:0] branchAddress,
-	output [31:0] pipedInstruction, pipedPc4
+	input [31:0] branch_address_IF,
+	input B_EXE,
+
+	output [31:0] instruction_ID, pc_ID
 );
 
-	wire [31:0] pcIn, pcOut, instruction, pc4;
+	wire [31:0] pc_next, pc, instruction, pc4;
 	
-	assign pcIn = (branchTacken) ? branchAddress : pc4;
-	assign pc4 = pcOut + 32'd4;
+	assign pc_next = (B_EXE) ? branch_address_IF : pc4;
+	assign pc4 = pc + 32'd4;
 
-	PC PC (clk, rst, hzrd, pcIn, pcOut);
-	instMem im (pcOut, instruction);
-	instFetchReg pr_if_id (clk, rst, branchTacken, hzrd, instruction, pc4, pipedInstruction, pipedPc4);
+	PC PC (clk, rst, hazard, pc_next, pc);
+	instMem im (pc, instruction);
+	instFetchReg pr_if_id (
+		clk, rst, 
+		B_EXE, hazard, 
+		instruction, pc4,
+		instruction_ID, pc_ID
+	);
 
 
 endmodule

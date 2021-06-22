@@ -3,30 +3,30 @@
 module memReg(
     input clk, rst,
 
-    input WB_EN_EXE, MEM_R_EN_EXE,
-    input [31:0] alu_res_EXE, data_mem,
-    input [3:0] dest_EXE,
+    input WB_EN_MEM, MEM_R_EN_MEM,
+    input [31:0] alu_res_MEM, data,
+    input [3:0] dest_MEM,
 
-    output reg WB_EN_MEM, MEM_R_EN_MEM,
-    output reg [31:0] alu_res_MEM, data_mem_MEM,
-    output reg [3:0] dest_MEM
+    output reg WB_EN_WB, MEM_R_EN_WB,
+    output reg [31:0] alu_res_WB, data_WB,
+    output reg [3:0] dest_WB
 );
 
     always@(posedge clk, posedge rst) begin
         if(rst)begin
-            dest_MEM <= 0;
-            data_mem_MEM <= 0;
-            alu_res_MEM <= 0;
-            MEM_R_EN_MEM <= 0;
-            WB_EN_MEM <= 0;
+            dest_WB <= 0;
+            data_WB <= 0;
+            alu_res_WB <= 0;
+            MEM_R_EN_WB <= 0;
+            WB_EN_WB <= 0;
         end
 
         else begin
-            dest_MEM <= dest_EXE;
-            data_mem_MEM <= data_mem;
-            alu_res_MEM <= alu_res_EXE;
-            MEM_R_EN_MEM <= MEM_R_EN_EXE;
-            WB_EN_MEM <= WB_EN_EXE;
+            dest_WB <= dest_MEM;
+            data_WB <= data;
+            alu_res_WB <= alu_res_MEM;
+            MEM_R_EN_WB <= MEM_R_EN_MEM;
+            WB_EN_WB <= WB_EN_MEM;
         end
     end
 

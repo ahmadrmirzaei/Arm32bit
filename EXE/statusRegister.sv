@@ -12,7 +12,7 @@ module statusRegister (
         if(rst) status_bits_out <= 0;
         else if(s) begin 
             status_bits_out <= status_bits_in;
-            $display("%d%d%d%d", status_bits_in[3],status_bits_in[2],status_bits_in[1],status_bits_in[0]);
+            $display("status changed: NZCV = %d%d%d%d", status_bits_in[3],status_bits_in[2],status_bits_in[1],status_bits_in[0]);
         end
     end
     

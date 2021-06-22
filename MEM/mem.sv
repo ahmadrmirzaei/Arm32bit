@@ -5,38 +5,36 @@
 module mem (
     input clk, rst,
 
-    input WB_EN_EXE, MEM_R_EN_EXE, MEM_W_EN_EXE,
-    input [31:0] alu_res_EXE, rm_val_EXE,
-    input [3:0] dest_EXE,
+    input WB_EN_MEM, MEM_R_EN_MEM, MEM_W_EN_MEM,
+    input [31:0] alu_res_MEM, rm_val_MEM,
+    input [3:0] dest_MEM,
 
-    output WB_EN_MEM, MEM_R_EN_MEM, WB_EN_MEM2,
-    output [31:0] alu_res_MEM, data_mem_MEM,
-    output [3:0] dest_MEM, dest_MEM2
+    output WB_EN_WB, MEM_R_EN_WB,
+    output [31:0] alu_res_WB, data_WB,
+    output [3:0] dest_WB
 );
 
-    assign dest_MEM2 = dest_EXE;
-    assign WB_EN_MEM2 = WB_EN_EXE;
-    wire [31:0] data_mem;
+    wire [31:0] data;
 
     dataMemory dm (
         clk, rst,
 
-        MEM_R_EN_EXE, MEM_W_EN_EXE,
-        alu_res_EXE, rm_val_EXE,
+        MEM_R_EN_MEM, MEM_W_EN_MEM,
+        alu_res_MEM, rm_val_MEM,
 
-        data_mem
+        data
     );
 
     memReg pr_mem_wb (
         clk, rst,
 
-        WB_EN_EXE, MEM_R_EN_EXE,
-        alu_res_EXE, data_mem,
-        dest_EXE,
-
         WB_EN_MEM, MEM_R_EN_MEM,
-        alu_res_MEM, data_mem_MEM,
-        dest_MEM
+        alu_res_MEM, data,
+        dest_MEM,
+
+        WB_EN_WB, MEM_R_EN_WB,
+        alu_res_WB, data_WB,
+        dest_WB
     );
 
     

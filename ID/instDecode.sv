@@ -5,105 +5,96 @@
 `timescale 1ns/1ns
 
 module instDecode(
-  input clk, rst,
+  input clk, rst, hazard,
 
-  input[31:0] instructionIn, pcIn,
-  input[31:0] wbValIn,
-  input wbIn,
-  input[3:0] wbDstIn,
-  input hzrdIn,
-  input[3:0] srIn,
+  input[31:0] instruction_ID, pc_ID, val,
+  input[3:0] status_ID, dest_WB,
+  input WB_EN_WB,
 
-  output wbEnOut, memrEnOut, memwEnOut,
-  output sOut, bOut,
-  output [3:0] exeCmdOut,
-  output [31:0] pcOut,
-  output [31:0] rnValOut, rmValOut,
-  output immOut,
-  output [11:0] shOprOut,
-  output [23:0] signedImm24Out,
-  output [3:0] destOut,
-  output [3:0] srOut,
-
-  output [3:0] src1, src2,
-  output twoSrc, move
+  output [31:0] pc_EXE, rn_val_EXE, rm_val_EXE,
+  output [23:0] signed_imm_24_EXE,
+  output [11:0] shifter_operand_EXE,
+  output [3:0] exe_cmd_EXE, dest_EXE, status_EXE, src1_HZRD, src2_HZRD,
+  output WB_EN_EXE, MEM_R_EN_EXE, MEM_W_EN_EXE, S_EXE, B_EXE, imm_EXE,
+  output two_src_HZRD, move_HZRD
 );
 
 
-  wire [3:0] cond = instructionIn[31:28];
-  wire [1:0] mode = instructionIn[27:26];
-  wire imm = instructionIn[25];
-  wire [3:0] opcode = instructionIn[24:21];
-  wire s = instructionIn[20];
-  wire [3:0] rn = instructionIn[19:16];
-  wire [3:0] rd = instructionIn[15:12];
-  wire [3:0] rm = instructionIn[3:0];
-  wire [3:0] rs = instructionIn[11:8];
-  wire [11:0] shifterOpr = instructionIn[11:0];
-  wire [23:0] signedImm24 = instructionIn[23:0];
+  wire [3:0] cond = instruction_ID[31:28];
+  wire [1:0] mode = instruction_ID[27:26];
+  wire imm = instruction_ID[25];
+  wire [3:0] opcode = instruction_ID[24:21];
+  wire s_ID = instruction_ID[20];
+  wire [3:0] rn = instruction_ID[19:16];
+  wire [3:0] rd = instruction_ID[15:12];
+  wire [3:0] rm = instruction_ID[3:0];
+  wire [3:0] rs = instruction_ID[11:8];
+  wire [11:0] shifter_operand = instruction_ID[11:0];
+  wire [23:0] signed_imm_24 = instruction_ID[23:0];
 
 
   // Condition Block
   wire check_cc;
   conditionCheck cc(
     cond,
-    srIn,
+    status_ID,
     check_cc
   );
-  wire mux_cc = ~check_cc | hzrdIn;
+  wire mux_cc = ~check_cc | hazard;
 
 
   // Control Block
-  wire [3:0] exeCmd_ctrl;
-  wire wb_ctrl, memRead_ctrl, memWrite_ctrl, b_ctrl, s_ctrl;
+  wire [3:0] exe_cmd;
+  wire WB_EN, MEM_R_EN, MEM_W_EN, B, S;
   controlUnit ctrl (
     mode,
     opcode,
-    s,
+    s_ID,
     mux_cc,
-    exeCmd_ctrl,
-    memRead_ctrl, memWrite_ctrl, wb_ctrl, b_ctrl, s_ctrl,
-    move
+    exe_cmd,
+    MEM_R_EN, MEM_W_EN, WB_EN, B, S,
+    move_HZRD
   );
 
 
   // wireisterfile Block
-  assign src1 = rn;
-  assign src2 = memWrite_ctrl ? rd : rm;
-  assign twoSrc = ~imm | memWrite_ctrl;
+  assign src1_HZRD = rn;
+  assign src2_HZRD = MEM_W_EN ? rd : rm;
+  assign two_src_HZRD = ~imm | MEM_W_EN;
 
-  wire [31:0] rnVal, rmVal;
+  wire [31:0] rn_val, rm_val;
   registerFile rf (
     clk, rst,
-    wbIn,
-    src1, src2, wbDstIn,
-    wbValIn,
-    rnVal, rmVal
+    WB_EN_WB,
+    src1_HZRD, src2_HZRD, dest_WB,
+    val,
+    rn_val, rm_val
   );
 
 
   // Pipe wireister Block
   instDecodeReg pr_id_exe (
-    clk, rst, bOut,
-    wb_ctrl, memRead_ctrl, memWrite_ctrl,
-    s_ctrl, b_ctrl,
-    exeCmd_ctrl,
-    pcIn,
-    rnVal, rmVal,
+    clk, rst, B_EXE,
+    
+    WB_EN, MEM_R_EN, MEM_W_EN,
+    S, B,
+    exe_cmd,
+    pc_ID,
+    rn_val, rm_val,
     imm,
-    shifterOpr,
-    signedImm24,
+    shifter_operand,
+    signed_imm_24,
     rd,
-    srIn,
-    wbEnOut, memrEnOut, memwEnOut,
-    sOut, bOut,
-    exeCmdOut, pcOut,
-    rnValOut, rmValOut,
-    immOut,
-    shOprOut,
-    signedImm24Out,
-    destOut,
-    srOut
+    status_ID,
+    WB_EN_EXE, MEM_R_EN_EXE, MEM_W_EN_EXE,
+    S_EXE, B_EXE,
+    exe_cmd_EXE, pc_EXE,
+    rn_val_EXE, rm_val_EXE,
+    imm_EXE,
+    shifter_operand_EXE,
+    signed_imm_24_EXE,
+    dest_EXE,
+    status_EXE
   );
   
 endmodule

@@ -3,23 +3,23 @@
 module instFetchReg (
 	input clk, rst,
 	input flush, freeze,
-	input [31:0] instructionIn, pcIn,
-	output reg [31:0] instructionOut, pcOut
+	input [31:0] instruction_IF, pc_IF,
+	output reg [31:0] instruction_ID, pc_ID
 );
 
 	always@(posedge clk, posedge rst)begin
 		if(rst) begin
-			instructionOut <= 0;
-			pcOut <= 0;			
+			instruction_ID <= 0;
+			pc_ID <= 0;			
 		end
 		else if(~freeze)begin
 			if(flush)begin
-				instructionOut <= 0;
-				pcOut <= 0;
+				instruction_ID <= 0;
+				pc_ID <= 0;
 			end
 			else begin
-				instructionOut <= instructionIn;
-				pcOut <= pcIn;
+				instruction_ID <= instruction_IF;
+				pc_ID <= pc_IF;
 			end	
 		end
 	end

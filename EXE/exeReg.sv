@@ -3,31 +3,31 @@
 module exeReg (
     input clk, rst,
 
-    input WB_EN_IN, MEM_R_EN_IN, MEM_W_EN_IN,
-    input [31:0] ALU_RES_IN, VAL_RM_IN,
-    input [3:0] DEST_IN,
+    input WB_EN_EXE, MEM_R_EN_EXE, MEM_W_EN_EXE,
+    input [31:0] ALU_RES_EXE, VAL_RM_EXE,
+    input [3:0] DEST_EXE,
 
-    output reg WB_EN_OUT, MEM_R_EN_OUT, MEM_W_EN_OUT,
-    output reg [31:0] ALU_RES_OUT, VAL_RM_OUT,
-    output reg [3:0] DEST_OUT
+    output reg WB_EN_MEM, MEM_R_EN_MEM, MEM_W_EN_MEM,
+    output reg [31:0] ALU_RES_MEM, VAL_RM_MEM,
+    output reg [3:0] DEST_MEM
 );
 
     always @(posedge clk, posedge rst) begin
         if(rst)begin
-            WB_EN_OUT <= 0;
-            MEM_R_EN_OUT <= 0;
-            MEM_W_EN_OUT <= 0;
-            ALU_RES_OUT <= 0;
-            VAL_RM_OUT <= 0;
-            DEST_OUT <= 0;
+            WB_EN_MEM <= 0;
+            MEM_R_EN_MEM <= 0;
+            MEM_W_EN_MEM <= 0;
+            ALU_RES_MEM <= 0;
+            VAL_RM_MEM <= 0;
+            DEST_MEM <= 0;
         end
         else begin
-            WB_EN_OUT <= WB_EN_IN;
-            MEM_R_EN_OUT <= MEM_R_EN_IN;
-            MEM_W_EN_OUT <= MEM_W_EN_IN;
-            ALU_RES_OUT <= ALU_RES_IN;
-            VAL_RM_OUT <= VAL_RM_IN;
-            DEST_OUT <= DEST_IN;
+            WB_EN_MEM <= WB_EN_EXE;
+            MEM_R_EN_MEM <= MEM_R_EN_EXE;
+            MEM_W_EN_MEM <= MEM_W_EN_EXE;
+            ALU_RES_MEM <= ALU_RES_EXE;
+            VAL_RM_MEM <= VAL_RM_EXE;
+            DEST_MEM <= DEST_EXE;
         end
     end
     
