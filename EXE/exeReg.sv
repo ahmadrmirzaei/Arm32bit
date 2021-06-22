@@ -14,12 +14,12 @@ module exeReg (
 
     always @(posedge clk, posedge rst) begin
         if(rst)begin
-            WB_EN_MEM <= 0;
-            MEM_R_EN_MEM <= 0;
-            MEM_W_EN_MEM <= 0;
-            ALU_RES_MEM <= 0;
-            VAL_RM_MEM <= 0;
-            DEST_MEM <= 0;
+            WB_EN_MEM <= 1'b0;
+            MEM_R_EN_MEM <= 1'b0;
+            MEM_W_EN_MEM <= 1'b0;
+            ALU_RES_MEM <= 32'b0;
+            VAL_RM_MEM <= 32'b0;
+            DEST_MEM <= 4'b0;
         end
         else begin
             WB_EN_MEM <= WB_EN_EXE;

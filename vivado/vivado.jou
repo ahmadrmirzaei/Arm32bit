@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Tue Jun 22 22:52:15 2021
+# Process ID: 9212
+# Current directory: D:/Ripositories/Arm32bit
+# Command line: vivado.exe -mode batch -source vivado/vivado.tcl -tempDir vivado -log vivado/vivado.log -jou vivado/vivado.jou
+# Log file: D:/Ripositories/Arm32bit/vivado/vivado.log
+# Journal file: D:/Ripositories/Arm32bit\vivado/vivado.jou
+#-----------------------------------------------------------
+source vivado/vivado.tcl

@@ -8,7 +8,8 @@
 
 module dataPath (
     input clk, rst,
-    input [31:0] i
+    output reg [31:0] inst_count,
+    output reg stop
 );
 
     wire [31:0] branch_address_IF;
@@ -103,7 +104,15 @@ module dataPath (
         hazard
     );
 
-    always @(posedge clk)
+    initial begin
+        inst_count = 0;
+        stop = 0;
+    end
+    always @(posedge clk) begin
         $display("%d: %b", pc_ID/4, instruction_ID);
+        inst_count = pc_ID / 4;
+        if(instruction_ID == 32'b1110_10_1_0_111111111111111111111111)
+            stop = 1;
+    end
 
 endmodule

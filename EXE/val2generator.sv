@@ -38,7 +38,6 @@ module val2generator (
                         LSR: val2 = {1'b0, val2[31:1]};
                         ASR: val2 = {val2[31], val2[31:1]};
                         ROR: val2 = {val2[0], val2[31:1]};
-                        default: $display("Unknown shift!");
                     endcase
                 end
             end

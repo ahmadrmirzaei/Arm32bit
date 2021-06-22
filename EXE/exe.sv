@@ -18,7 +18,7 @@ module exe (
     output WB_EN_MEM, MEM_R_EN_MEM, MEM_W_EN_MEM
 );
     wire MEM_EN = MEM_R_EN_EXE | MEM_W_EN_EXE;
-    wire branch_address_IF = {{6{signed_imm_24_EXE[23]}},signed_imm_24_EXE,2'b0} + pc_EXE;
+    assign branch_address_IF = {{6{signed_imm_24_EXE[23]}},signed_imm_24_EXE,2'b0} + pc_EXE;
     wire C = status_EXE[1];
     wire [31:0] val1 = rn_val_EXE;
 

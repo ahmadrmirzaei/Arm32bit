@@ -12,12 +12,13 @@ module dataMemory (
     reg [31:0] memory [0:63];
     assign data_mem = MEM_R_EN ? memory[(alu_res-1023)/4] : 32'b0;
 
-    always@(negedge clk, posedge rst) begin
-        if (rst) for (integer j=0; j<64; j=j+1) memory[j] = 0;
+    always@(negedge clk) begin
         if (MEM_W_EN) begin
             memory[(alu_res-1023)/4] = rm_val;
             $writememb("memory.txt", memory);
         end
     end
+
+    initial for (integer j=0; j<64; j=j+1) memory[j] = 0;
 
 endmodule

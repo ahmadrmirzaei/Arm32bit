@@ -28,36 +28,36 @@ module instDecodeReg (
 
 	always@(posedge clk, posedge rst)begin
 		if(rst) begin
-			WB_EN_EXE <= 0;
-			MEM_R_EN_EXE <= 0;
-            MEM_W_EN_EXE <= 0;
-            S_EXE <= 0;
-            B_EXE <= 0;
-            exe_cmd_EXE <= 0;
-            pc_EXE <= 0;
-            rn_val_EXE <= 0;
-            rm_val_EXE <= 0;
-            imm_EXE <= 0;
-            shifter_operand_EXE <= 0;
-            signed_imm_24_EXE <= 0;
-            dest_EXE <= 0;
-            status_EXE <= 0;	
+			WB_EN_EXE <= 1'd0;
+			MEM_R_EN_EXE <= 1'd0;
+            MEM_W_EN_EXE <= 1'd0;
+            S_EXE <= 1'd0;
+            B_EXE <= 1'd0;
+            exe_cmd_EXE <= 4'd0;
+            pc_EXE <= 32'd0;
+            rn_val_EXE <= 32'd0;
+            rm_val_EXE <= 32'd0;
+            imm_EXE <= 1'd0;
+            shifter_operand_EXE <= 12'd0;
+            signed_imm_24_EXE <=24'd0;
+            dest_EXE <= 4'd0;
+            status_EXE <= 4'd0;	
 		end
         else if(flush)begin
-			WB_EN_EXE <= 0;
-			MEM_R_EN_EXE <= 0;
-            MEM_W_EN_EXE <= 0;
-            S_EXE <= 0;
-            B_EXE <= 0;
-            exe_cmd_EXE <= 0;
-            pc_EXE <= 0;
-            rn_val_EXE <= 0;
-            rm_val_EXE <= 0;
-            imm_EXE <= 0;
-            shifter_operand_EXE <= 0;
-            signed_imm_24_EXE <= 0;
-            dest_EXE <= 0;
-            status_EXE <= 0;            
+			WB_EN_EXE <= 1'd0;
+			MEM_R_EN_EXE <= 1'd0;
+            MEM_W_EN_EXE <= 1'd0;
+            S_EXE <= 1'd0;
+            B_EXE <= 1'd0;
+            exe_cmd_EXE <= 4'd0;
+            pc_EXE <= 32'd0;
+            rn_val_EXE <= 32'd0;
+            rm_val_EXE <= 32'd0;
+            imm_EXE <= 1'd0;
+            shifter_operand_EXE <= 12'd0;
+            signed_imm_24_EXE <= 24'd0;
+            dest_EXE <= 4'd0;
+            status_EXE <= 4'd0;            
         end
 		else begin
 			WB_EN_EXE <= WB_EN_ID;
